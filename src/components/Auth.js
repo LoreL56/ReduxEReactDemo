@@ -1,10 +1,12 @@
 import { useDispatch, useSelector } from "react-redux";
 import classes from "./Auth.module.css";
-import { authActions } from "../store/index";
+import { authActions } from "../store/auth";
+import { userActions } from "../store/user";
+
 
 const Auth = () => {
-  const currentEmail = useSelector(state => state.auth.insertedEmail);
-  const currentPassword = useSelector(state => state.auth.insertedPassword);
+  const currentEmail = useSelector(state => state.user.insertedEmail);
+  const currentPassword = useSelector(state => state.user.insertedPassword);
   const hasAuthenticationFailed = useSelector(state => state.auth.hasAuthenticationFailed);
   const dispatch = useDispatch();
 
@@ -17,16 +19,16 @@ const Auth = () => {
     }
     else {
       dispatch(authActions.login());
-      dispatch(authActions.resetLogin());
+      dispatch(userActions.resetLogin());
     }
   }
 
   function setEmailHandler(event) {
-    dispatch(authActions.setEmail(event.target.value));
+    dispatch(userActions.setEmail(event.target.value));
   }
 
   function setPasswordHandler(event) {
-    dispatch(authActions.setPassword(event.target.value));
+    dispatch(userActions.setPassword(event.target.value));
   }
   
 
@@ -36,7 +38,7 @@ const Auth = () => {
         <form onSubmit={loginSubmitHandler}>
           <div className={classes.control}>
             <label htmlFor="email">Email</label>
-            <input onChange={setEmailHandler} type="email" id="email" />
+            <input onChange={setEmailHandler} value={currentEmail} type="email" id="email" />
           </div>
           <div className={classes.control}>
             <label htmlFor="password">Password</label>
